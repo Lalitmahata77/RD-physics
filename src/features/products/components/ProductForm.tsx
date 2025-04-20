@@ -13,71 +13,65 @@ import {
 } from "@/components/ui/form"
 import { RequiredLabelIcon } from "@/components/RequiredLabelIcon"
 import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
-import { LessonStatus, lessonStatuses } from "@/drizzle/schema"
+import { productSchema } from "../schema/products"
+import { ProductStatus, productStatuses } from "@/drizzle/schema"
+import { createProduct, updateProduct } from "../actions/products"
 import {
   Select,
+  SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-  SelectContent,
 } from "@/components/ui/select"
-import { lessonSchema } from "../schemas/lessons"
-import { Textarea } from "@/components/ui/textarea"
-import { createLesson, updateLesson } from "../actions/lessons"
+import { MultiSelect } from "@/components/ui/custom/multi-select"
 import { toast } from "sonner"
-import { YouTubeVideoPlayer } from "./YouTubeVideoPlayer"
 
-export function LessonForm({
-  sections,
-  defaultSectionId,
-  onSuccess,
-  lesson,
+export function ProductForm({
+  product,
+  courses,
 }: {
-  sections: {
+  product?: {
+    id: string
+    name: string
+    description: string
+    priceInDollars: number
+    imageUrl: string
+    status: ProductStatus
+    courseIds: string[]
+  }
+  courses: {
     id: string
     name: string
   }[]
-  onSuccess?: () => void
-  defaultSectionId?: string
-  lesson?: {
-    id: string
-    name: string
-    status: LessonStatus
-    youtubeVideoId: string
-    description: string | null
-    sectionId: string
-  }
 }) {
-  const form = useForm<z.infer<typeof lessonSchema>>({
-    resolver: zodResolver(lessonSchema),
-    defaultValues: {
-      name: lesson?.name ?? "",
-      status: lesson?.status ?? "public",
-      youtubeVideoId: lesson?.youtubeVideoId ?? "",
-      description: lesson?.description ?? "",
-      sectionId: lesson?.sectionId ?? defaultSectionId ?? sections[0]?.id ?? "",
+  const form = useForm<z.infer<typeof productSchema>>({
+    resolver: zodResolver(productSchema),
+    defaultValues: product ?? {
+      name: "",
+      description: "",
+      courseIds: [],
+      imageUrl: "",
+      priceInDollars: 0,
+      status: "private",
     },
   })
 
-  async function onSubmit(values: z.infer<typeof lessonSchema>) {
+  async function onSubmit(values: z.infer<typeof productSchema>) {
     const action =
-      lesson == null ? createLesson : updateLesson.bind(null, lesson.id)
+      product == null ? createProduct : updateProduct.bind(null, product.id)
     const data = await action(values)
     toast.success(data.message)
-    if (!data.error) onSuccess?.()
   }
-
-  const videoId = form.watch("youtubeVideoId")
-  console.log(videoId)
 
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex gap-6 flex-col @container"
+        className="flex gap-6 flex-col m-5"
       >
-        <div className="grid grid-cols-1 @lg:grid-cols-2 gap-6">
+        <div className="grid gap-6 grid-cols-1 md:grid-cols-2 items-start ">
           <FormField
             control={form.control}
             name="name"
@@ -96,15 +90,27 @@ export function LessonForm({
           />
           <FormField
             control={form.control}
-            name="youtubeVideoId"
+            name="priceInDollars"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>
                   <RequiredLabelIcon />
-                  YouTube Video Id
+                  Price
                 </FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input
+                    type="number"
+                    {...field}
+                    step={1}
+                    min={0}
+                    onChange={e =>
+                      field.onChange(
+                        isNaN(e.target.valueAsNumber)
+                          ? ""
+                          : e.target.valueAsNumber
+                      )
+                    }
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -112,27 +118,16 @@ export function LessonForm({
           />
           <FormField
             control={form.control}
-            name="sectionId"
+            name="imageUrl"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Section</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {sections.map(section => (
-                      <SelectItem key={section.id} value={section.id}>
-                        {section.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <FormLabel>
+                  <RequiredLabelIcon />
+                  Image Url
+                </FormLabel>
+                <FormControl>
+                  <Input type="file" {...field} />
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )}
@@ -153,7 +148,7 @@ export function LessonForm({
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {lessonStatuses.map(status => (
+                    {productStatuses.map(status => (
                       <SelectItem key={status} value={status}>
                         {status}
                       </SelectItem>
@@ -167,16 +162,36 @@ export function LessonForm({
         </div>
         <FormField
           control={form.control}
+          name="courseIds"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Included Courses</FormLabel>
+              <FormControl>
+                <MultiSelect
+                  selectPlaceholder="Select courses"
+                  searchPlaceholder="Search courses"
+                  options={courses}
+                  getLabel={c => c.name}
+                  getValue={c => c.id}
+                  selectedValues={field.value}
+                  onSelectedValuesChange={field.onChange}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
           name="description"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Description</FormLabel>
+              <FormLabel>
+                <RequiredLabelIcon />
+                Description
+              </FormLabel>
               <FormControl>
-                <Textarea
-                  className="min-h-20 resize-none"
-                  {...field}
-                  value={field.value ?? ""}
-                />
+                <Textarea className="min-h-20 resize-none" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -187,11 +202,6 @@ export function LessonForm({
             Save
           </Button>
         </div>
-        {videoId && (
-          <div className="aspect-video">
-            <YouTubeVideoPlayer videoId={videoId} />
-          </div>
-        )}
       </form>
     </Form>
   )
