@@ -15,6 +15,48 @@
       "when": 1745076762241,
       "tag": "0001_reflective_black_widow",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1745772167147,
+      "tag": "0002_red_gamma_corps",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1745822887742,
+      "tag": "0003_massive_scarlet_witch",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1746073655748,
+      "tag": "0004_bent_vapor",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1746117037885,
+      "tag": "0005_closed_cloak",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1746157768499,
+      "tag": "0006_dizzy_pet_avengers",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1746442386510,
+      "tag": "0007_fluffy_marauders",
+      "breakpoints": true
     }
   ]
 }

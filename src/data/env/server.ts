@@ -11,8 +11,9 @@ export const env = createEnv({
 
     CLERK_SECRET_KEY: z.string().min(1),
     CLERK_WEBHOOK_SECRET: z.string().min(1),
-    // ARCJET_KEY: z.string().min(1),
-    // TEST_IP_ADDRESS: z.string().min(1).optional(),
+    ARCJET_KEY: z.string().min(1),
+    TEST_IP_ADDRESS: z.string().min(1).optional(),
+    // NEXT_PUBLIC_KHALTI_SECRET_KEY: z.string().min(1)
     // STRIPE_PPP_50_COUPON_ID: z.string().min(1),
     // STRIPE_PPP_40_COUPON_ID: z.string().min(1),
     // STRIPE_PPP_30_COUPON_ID: z.string().min(1),

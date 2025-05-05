@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
     authInterrupts: true,
     useCache: true,
   },
+  
 };
 
 export default nextConfig;

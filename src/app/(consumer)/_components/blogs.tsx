@@ -1,0 +1,100 @@
+import { db } from "@/drizzle/db";
+import { BlogTable } from "@/drizzle/schema";
+import { getblogGlobalTag } from "@/features/blogs/db/cache";
+import { asc } from "drizzle-orm";
+import { cacheTag } from "next/dist/server/use-cache/cache-tag";
+import Link from "next/link";
+
+export  async function BlogSection() {
+    // const posts = [
+    //   {
+    //     category: "Homework",
+    //     author: "Sinceni",
+    //     title: "6 good ways to establish productive homework routine",
+    //     excerpt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vittricies",
+    //     date: "March 15, 2024"
+    //   },
+    //   {
+    //     category: "Study Tips",
+    //     author: "Suivy",
+    //     title: "Curious Kids: is it OK to listen to music while studying?",
+    //     excerpt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vittricies",
+    //     date: "March 14, 2024"
+    //   },
+    //   {
+    //     category: "Focus",
+    //     author: "Suivy",
+    //     title: "How to avoid distractions while studying, science facts",
+    //     excerpt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vittricies",
+    //     date: "March 13, 2024"
+    //   }
+    // ];
+    const posts = await getPublicBlogs()
+  
+    return (
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl font-bold text-gray-900 mb-6">Blog & News</h2>
+          <p className="text-gray-600 max-w-2xl mx-auto">
+            Ut eget maths lacus, sit amet accumsan erat. Integer suscipit justo vel laculis scelerisque. 
+            Nam vel porta augue. Proin egestas leo magna, vel tincidunt magna laoreet eu.
+          </p>
+        </div>
+  
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {posts?.map((post, index) => (
+            <article key={index} className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+              <div className="flex justify-between items-start mb-4">
+                <span className="inline-block bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm">
+                  {post?.category}
+                </span>
+                <span className="text-sm text-gray-500">{post?.author}</span>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">{post?.title}</h3>
+              <p className="text-gray-600 mb-4">{post?.excerpt}</p>
+              <div className="flex justify-between items-center">
+                <Link 
+                  href={`/blog/${post?.id}`} 
+                  className="text-indigo-600 hover:text-indigo-700 font-medium flex items-center gap-2"
+                >
+                  Read more
+                  <svg 
+                    className="w-4 h-4" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
+                    <path 
+                      strokeLinecap="round" 
+                      strokeLinejoin="round" 
+                      strokeWidth={2} 
+                      d="M14 5l7 7m0 0l-7 7m7-7H3" 
+                    />
+                  </svg>
+                </Link>
+                <span className="text-sm text-gray-500">{post?.createdAt?.toLocaleDateString()}</span>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+    );
+  }
+
+  async function getPublicBlogs() {
+    "use cache"
+    cacheTag(getblogGlobalTag())
+  
+    return db.query.BlogTable.findMany({
+      columns: {
+        id: true,
+        category: true,
+        author: true,
+        title: true,
+        excerpt: true,
+        createdAt: true
+
+      },
+      orderBy: asc(BlogTable.title),
+    })
+  }

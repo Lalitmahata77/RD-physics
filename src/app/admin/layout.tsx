@@ -55,6 +55,13 @@ function Navbar() {
             >
               Sales
             </Link>
+
+            <Link
+              className="hover:bg-blue-100 px-3 py-2 rounded transition-colors duration-200"
+              href="/admin/purchases"
+            >
+              Purchases
+            </Link>
           </div>
   
           {/* User Button */}

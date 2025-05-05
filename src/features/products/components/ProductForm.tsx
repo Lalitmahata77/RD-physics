@@ -116,7 +116,7 @@ export function ProductForm({
               </FormItem>
             )}
           />
-          <FormField
+            <FormField
             control={form.control}
             name="imageUrl"
             render={({ field }) => (
@@ -126,7 +126,7 @@ export function ProductForm({
                   Image Url
                 </FormLabel>
                 <FormControl>
-                  <Input type="file" {...field} />
+                  <Input {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

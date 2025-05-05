@@ -10,7 +10,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { ProductStatus } from "@/drizzle/schema"
-import { formatPlural, formatPrice } from "@/lib/formatters"
+import { formatPlural } from "@/lib/formatters"
 import { EyeIcon, LockIcon, Trash2Icon } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
@@ -20,15 +20,15 @@ export function ProductTable({
   products,
 }: {
   products: {
-    id: string
-    name: string
-    description: string
-    imageUrl: string
-    priceInDollars: number
-    status: ProductStatus
-    coursesCount: number
-    customersCount: number
-  }[]
+    id: string;
+    name: string;
+    description: string;
+    imageUrl?: string; 
+    priceInDollars: number;
+    status: ProductStatus;
+    coursesCount: number;
+    customersCount: number;
+  }[];
 }) {
   return (
     <Table>
@@ -46,14 +46,14 @@ export function ProductTable({
         </TableRow>
       </TableHeader>
       <TableBody>
-        {products.map(product => (
+        {products.map((product) => (
           <TableRow key={product.id}>
             <TableCell>
               <div className="flex items-center gap-4">
                 <Image
                   className="object-cover rounded size-12"
-                  src={product.imageUrl}
-                  alt={product.name}
+                  src={product.imageUrl || "/images/right.png"} 
+                  alt={product.name || "Default Product Image"}
                   width={192}
                   height={192}
                 />
@@ -64,7 +64,9 @@ export function ProductTable({
                       singular: "course",
                       plural: "courses",
                     })}{" "}
-                    • {formatPrice(product.priceInDollars)}
+                    {/* • {formatPrice(product.priceInDollars)} */}
+                    • NRP {product.priceInDollars}
+
                   </div>
                 </div>
               </div>
@@ -94,9 +96,8 @@ export function ProductTable({
         ))}
       </TableBody>
     </Table>
-  )
+  );
 }
-
 function getStatusIcon(status: ProductStatus) {
   const Icon = {
     public: EyeIcon,

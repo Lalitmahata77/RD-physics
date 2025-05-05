@@ -1,4 +1,4 @@
-import { and, eq, isNull } from "drizzle-orm"
+import { and, eq } from "drizzle-orm"
 import { db } from "@/drizzle/db"
 import { revalidateProductCache } from "./cache"
 import {
@@ -23,7 +23,6 @@ export async function userOwnsProduct({
     where: and(
       eq(PurchaseTable.productId, productId),
       eq(PurchaseTable.userId, userId),
-      isNull(PurchaseTable.refundedAt)
     ),
   })
 
