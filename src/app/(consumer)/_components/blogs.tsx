@@ -6,29 +6,7 @@ import { cacheTag } from "next/dist/server/use-cache/cache-tag";
 import Link from "next/link";
 
 export  async function BlogSection() {
-    // const posts = [
-    //   {
-    //     category: "Homework",
-    //     author: "Sinceni",
-    //     title: "6 good ways to establish productive homework routine",
-    //     excerpt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vittricies",
-    //     date: "March 15, 2024"
-    //   },
-    //   {
-    //     category: "Study Tips",
-    //     author: "Suivy",
-    //     title: "Curious Kids: is it OK to listen to music while studying?",
-    //     excerpt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vittricies",
-    //     date: "March 14, 2024"
-    //   },
-    //   {
-    //     category: "Focus",
-    //     author: "Suivy",
-    //     title: "How to avoid distractions while studying, science facts",
-    //     excerpt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vittricies",
-    //     date: "March 13, 2024"
-    //   }
-    // ];
+    
     const posts = await getPublicBlogs()
   
     return (

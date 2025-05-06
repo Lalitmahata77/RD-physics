@@ -8,6 +8,7 @@ type CACHE_TAG =
   | "purchases"
   | "userLessonComplete"
   | "blogs"
+  | "courseAccess"
 
   
 

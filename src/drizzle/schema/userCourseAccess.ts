@@ -1,5 +1,5 @@
 import { pgTable, primaryKey, uuid } from "drizzle-orm/pg-core"
-import { createdAt, updatedAt } from "../schema-helper"
+import { createdAt,  updatedAt } from "../schema-helper"
 import { relations } from "drizzle-orm"
 import { UserTable } from "./user"
 import { CourseTable } from "./course"

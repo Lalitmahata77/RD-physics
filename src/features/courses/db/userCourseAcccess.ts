@@ -4,7 +4,7 @@ import {
   PurchaseTable,
   UserCourseAccessTable,
 } from "@/drizzle/schema"
-import { and, eq, inArray, isNull } from "drizzle-orm"
+import { and, eq, inArray } from "drizzle-orm"
 import { revalidateUserCourseAccessCache } from "./cache/userCourseAccess"
 
 export async function addUserCourseAccess(
@@ -40,8 +40,7 @@ export async function revokeUserCourseAccess(
 ) {
   const validPurchases = await trx.query.PurchaseTable.findMany({
     where: and(
-      eq(PurchaseTable.userId, userId),
-      isNull(PurchaseTable.refundedAt)
+      eq(PurchaseTable.userId, userId)
     ),
     with: {
       product: {
