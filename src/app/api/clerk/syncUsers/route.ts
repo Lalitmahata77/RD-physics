@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'; // tells Next.js not to statically optimize
+
 import { insertUser } from "@/features/users/db/users"
 import { syncClerkUserMetadata } from "@/services/clerk"
 import { currentUser } from "@clerk/nextjs/server"

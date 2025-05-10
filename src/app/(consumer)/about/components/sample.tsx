@@ -37,6 +37,8 @@ export default function AboutUs() {
                 <Image
                   src={person.image}
                   alt={person.name}
+                  width={400}
+                  height={400}
                   className="w-full h-[400px] object-cover rounded-2xl"
                 />
               </div>

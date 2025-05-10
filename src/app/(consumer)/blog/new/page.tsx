@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { PageHeader } from "@/components/PageHeader"
 import { BlogForm } from "@/features/blogs/components/BlogForm"
 
