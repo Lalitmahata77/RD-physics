@@ -58,9 +58,9 @@ function Navbar() {
 
             <Link
               className="hover:bg-blue-100 px-3 py-2 rounded transition-colors duration-200"
-              href="/admin/purchases"
+              href="/admin/teachers"
             >
-              Purchases
+              Teachers
             </Link>
             <Link
               className="hover:bg-blue-100 px-3 py-2 rounded transition-colors duration-200"

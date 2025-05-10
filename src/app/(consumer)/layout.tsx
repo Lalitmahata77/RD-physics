@@ -206,10 +206,10 @@ function AuthenticatedLinks() {
         My Courses
       </Link>
       <Link
-        href="/purchases"
+        href="/mentors"
         className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors px-3 py-2"
       >
-        Purchase History
+        Mentors
       </Link>
       <Suspense fallback={null}>
         <AdminLink />

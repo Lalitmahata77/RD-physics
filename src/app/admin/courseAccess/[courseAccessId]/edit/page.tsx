@@ -21,7 +21,7 @@ export default async function EditcourseAccessPage({
   return (
     <div className="container my-6">
       <PageHeader title="New Product" />
-     <CourseAccessForm courses={[{ id: product.courseId, name: "Course Name" }]} users={[]}/>
+     <CourseAccessForm courses={[{ id: product?.courseId, name: "Course Name" }]} users={[]}/>
     </div>
   )
 }

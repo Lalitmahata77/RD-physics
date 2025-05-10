@@ -4,9 +4,8 @@ import { getTeacherGlobalTag } from '@/features/teachers/db/cache';
 import { asc } from 'drizzle-orm';
 import { cacheTag } from 'next/dist/server/use-cache/cache-tag';
 import Image from 'next/image';
-import Link from 'next/link';
 
-const MentorsSection = async()=> {
+const MentorsSectionPage = async()=> {
   const teachers =await getTeacher()
 
   return (
@@ -41,27 +40,7 @@ const MentorsSection = async()=> {
         </div>
       </div>
 
-      <div className="mt-12 text-center">
-        <Link 
-          href="/mentors"
-          className="inline-flex items-center text-indigo-600 hover:text-indigo-700 font-medium transition-colors"
-        >
-          View More
-          <svg 
-            className="w-4 h-4 ml-2" 
-            fill="none" 
-            stroke="currentColor" 
-            viewBox="0 0 24 24"
-          >
-            <path 
-              strokeLinecap="round" 
-              strokeLinejoin="round" 
-              strokeWidth={2} 
-              d="M14 5l7 7m0 0l-7 7m7-7H3" 
-            />
-          </svg>
-        </Link>
-      </div>
+      
     </section>
   );
 }
@@ -78,8 +57,7 @@ async function getTeacher(){
 
     },
     orderBy:asc(TeacherTable.id),
-    limit: 4
   })
 }
 
-export default MentorsSection
+export default MentorsSectionPage

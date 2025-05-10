@@ -13,9 +13,8 @@ export async function createCourseAccess(unsafeData: z.infer<typeof CourseAccesS
         return { error: true, message: "There was an error creating your courseAccess" }
       }
     
-      const courseAccess = await insertCourseAccess(data)
-    
-      redirect(`/admin/courseAccess/${courseAccess.userId}/edit`)
+await insertCourseAccess(data)    
+      redirect(`/admin/courseAccess`)
 }
 
 export async function updateCourseAccess(

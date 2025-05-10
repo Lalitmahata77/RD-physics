@@ -9,6 +9,8 @@ type CACHE_TAG =
   | "userLessonComplete"
   | "blogs"
   | "courseAccess"
+  | "teachers"
+
 
   
 
