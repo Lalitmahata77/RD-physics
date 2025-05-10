@@ -5,15 +5,11 @@ import { eq } from "drizzle-orm";
 
 
 
-const BlogDetailsPage = async ({ params }: {params: {blogId:string}}) => {
-  const { blogId } = params;
+const BlogDetailsPage = async ({ params }: {params: Promise<{blogId:string}>}) => {
+  const { blogId } = await params;
 
   // Fetch blog details from the database
-  const blog = await db
-    .select()
-    .from(BlogTable)
-    .where(eq(BlogTable.id, blogId))
-    .then((blogs) => blogs[0]);
+  const blog = await getblogDetails(blogId)
 
   if (!blog) {
     return (
@@ -65,3 +61,18 @@ const BlogDetailsPage = async ({ params }: {params: {blogId:string}}) => {
 
 export default BlogDetailsPage;
 
+async function getblogDetails(id: string){
+  "use cache"
+  return db.query.BlogTable.findFirst({
+    columns: {
+      id: true,
+      title: true,
+      author: true,
+      excerpt: true,
+      createdAt: true,
+      category: true
+
+    },
+    where: eq(BlogTable.id, id)
+  })
+}

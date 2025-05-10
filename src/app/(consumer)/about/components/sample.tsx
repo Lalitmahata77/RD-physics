@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function AboutUs() {
     const people = [
       {
@@ -32,7 +34,7 @@ export default function AboutUs() {
                 key={index}
                 className="bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 rounded-3xl overflow-hidden shadow-md p-4"
               >
-                <img
+                <Image
                   src={person.image}
                   alt={person.name}
                   className="w-full h-[400px] object-cover rounded-2xl"
