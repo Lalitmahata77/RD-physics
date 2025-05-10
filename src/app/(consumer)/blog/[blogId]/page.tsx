@@ -3,13 +3,9 @@ import { db } from "@/drizzle/db";
 import { BlogTable } from "@/drizzle/schema";
 import { eq } from "drizzle-orm";
 
-interface BlogDetailsProps {
-  params: {
-    blogId: string;
-  };
-}
 
-const BlogDetailsPage = async ({ params }: BlogDetailsProps) => {
+
+const BlogDetailsPage = async ({ params }: {params: {blogId:string}}) => {
   const { blogId } = params;
 
   // Fetch blog details from the database
@@ -68,3 +64,4 @@ const BlogDetailsPage = async ({ params }: BlogDetailsProps) => {
 };
 
 export default BlogDetailsPage;
+
